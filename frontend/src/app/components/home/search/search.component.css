@@ -1,0 +1,39 @@
+
+
+
+
+i {
+    color: rgb(33,36,171);
+}
+
+.bi-x {
+    font-size: 25px;
+}
+
+.input-group {
+    border: 2.5px solid rgb(33,36,171);
+
+}
+
+.form-control {
+    border: none;
+    outline: none!important;
+    box-shadow: none!important;
+    -webkit-appearance: none;
+}
+
+input:focus{
+    outline: none!important;
+    box-shadow: none!important;
+    -webkit-appearance: none;
+}
+
+button {
+    border: none;
+ 
+    outline: none!important;
+    box-shadow: none!important;
+}
+
+
+

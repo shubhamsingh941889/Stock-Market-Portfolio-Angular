@@ -1,0 +1,35 @@
+.spanClass {
+    float: right;
+}
+
+.greenText {
+    color: green;
+}
+
+.redText{
+    color: red;
+}
+
+
+
+h3 {
+    font-size: 150%;
+}
+@media (min-width: 768px) { 
+    .container-fluid {
+        width: 75%!important;
+    }
+}
+
+input{
+    width: 4rem;
+}
+
+p{
+    margin-bottom: 0;
+}
+
+p{
+    font-size: 125%;
+    font-weight: lighter;
+}

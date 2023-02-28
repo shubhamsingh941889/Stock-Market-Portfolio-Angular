@@ -1,0 +1,31 @@
+.alert{
+    text-align: center;
+}
+
+
+.card-body{
+    position: relative;
+}
+
+.bi-x{
+    position: absolute;
+    right: 0;
+    top: -5%;
+    font-size: 1.5em;
+    cursor: pointer;
+    font-weight: bolder;
+}
+
+.greenText {
+    color: green;
+}
+
+.redText{
+    color: red;
+}
+
+@media (min-width: 768px) { 
+    .container-fluid {
+        width: 75%!important;
+    }
+}

@@ -1,0 +1,186 @@
+
+
+
+
+
+<div class="container my-5 mx-auto w-md-75" id="tabs">
+    <mat-tab-group mat-align-tabs="center" mat-stretch-tabs animationDuration="0ms">
+
+
+    
+        <mat-tab label="Summary">
+            <div class="container mt-3">
+                <div class="row">
+                    <div class="col-md-6 col-12">
+                        <div class="price align-items-center d-flex py-3 w-md-75">
+                            <table>
+                                <tr>
+                                    <th>High Price: </th>
+                                    <td>{{stockPrice['h']}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Low Price: </th>
+                                    <td>{{stockPrice['l']}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Open Price: </th>
+                                    <td>{{stockPrice['o']}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Prev. Close: </th>
+                                    <td>{{stockPrice['pc']}}</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="about">
+                            <h3 class="text-center">About the Company</h3>
+                            <div>
+                                
+                                <div class="my-2">
+                                    <span style="font-weight: bold;">IPO Start Date: </span>
+                                    <span>{{companyProfile['ipo']}}</span>
+                                </div>
+                                
+                                <div class="my-2">
+                                    <span style="font-weight: bold;">Industry: </span>
+                                    <span>{{companyProfile['finnhubIndustry']}}</span>
+                                    </div>
+                                <div class="my-2">
+                                    <span style="font-weight: bold;">Webpage: </span>
+                                    <span><a href="{{companyProfile['weburl']}}" target="_blank">{{companyProfile['weburl']}}</a></span>
+                                </div>
+                                <div class="my-2">
+                                    <span style="font-weight: bold;">Company Peers: </span>
+                                </div>
+                                <div class="my-2">
+                                    <span *ngFor="let peer of companyPeers"><a routerLink="/search/{{peer}}">{{peer}},</a></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12 mt-4">
+                        <highcharts-chart *ngIf="displayDailyChart"
+                            [Highcharts]="Highcharts"
+                            [options]="DailychartOptions"
+                            style="position: relative; height:100%; display: block;width: 100%;">
+                        </highcharts-chart>
+                    </div>
+                </div>
+            </div>
+        </mat-tab>
+
+        <mat-tab label="Top News" id="News">
+            <div class="mt-2">
+                <div class="row">
+                    <div class="col-12 col-md-6 my-2" *ngFor="let newsItem of companyNews;">
+                        <div class="card mb-3" style="cursor: pointer;" (click)="showNewsTab(content,newsItem)">
+                            <div class="row g-0 align-items-center">
+                                <div class="col-12 col-md-4 text-center" style="padding: 1rem;">
+                                    <img src="{{newsItem['image']}}" >
+                                </div>
+                                <div class="col-12 col-md-8">
+                                    <div class="card-body">
+                                        <p class="card-text">{{newsItem['headline']}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <ng-template #content let-modal>
+                <div class="modal-header">
+                  <h1 class="modal-title" id="modal-basic-title"><b>{{item['source']}}</b>
+                    <br>
+                    <small class="text-muted">{{item['datetime']*1000 | date: "longDate":"-0700"}} </small>
+                  </h1>
+                    
+                  <button type="button" class="btn-close text-muted" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+                </div>
+                <div class="modal-body">
+                  <h3 class="mb-0"><b>{{item['headline']}}</b></h3>
+                  <p class="mb-0">{{item['summary']}}</p>
+                  <p class="text-muted">For more details click <a href="{{item['url']}}" target="_blank">here</a></p>
+                </div>
+                <div class="modalFooter m-3 p-3">
+                    <div>
+                        <h3>Share</h3>
+                    </div>
+                    
+                    <br>
+                    <div><a target="_blank" [href]="'https://twitter.com/intent/tweet?text='+item['headline']+'\&url='+item['url']"><i class="fa fa-twitter fa-3x twitter-color"></i></a>&nbsp; &nbsp;
+                        <a target="_blank" [href]="'https://www.facebook.com/sharer/sharer.php?u='+item['url']"><i class="fa fa-facebook-square fa-3x fb-color"></i></a> 
+                    </div>
+                </div>
+              </ng-template>
+        </mat-tab>
+
+        <mat-tab  label="Charts">
+            <ng-template matTabContent>
+                <highcharts-chart 
+            [Highcharts]="Highcharts"
+            [options]="HistoricalChartOptions"
+            style="position: relative; display: block;width: auto;height:600px !important;  margin-top:1rem;"
+            [constructorType]="'stockChart'"
+        ></highcharts-chart>
+            </ng-template>
+            
+        </mat-tab>
+
+
+        <mat-tab label="Insights">
+            <ng-template matTabContent>
+                <div class="container mt-2">
+                    <div class="row" style="height: 100%;">
+                        <div class="col justify-content-center text-center">
+                            <div class="h5 text-center py-4">About the Company</div>
+                            <table class="table mx-auto tect-center" style="width:60%">
+                                <thead>
+                                    <tr class="table-light text-center">
+                                      <th class="text-center" scope="col">{{companyProfile['name']}}</th>
+                                      <th class="text-center" scope="col">Reddit</th>
+                                      <th class="text-center" scope="col">Twitter</th>
+                                      
+                                    </tr>
+                                    <tr class="text-center">
+                                        <th class="table-light">Total Mentions</th>
+                                        <td>{{insightsSentiments.reddit.mentions}}</td>
+                                        <td>{{insightsSentiments.twitter.mentions}}</td>
+                                    </tr>
+                                    <tr class="text-center">
+                                        <th class="table-light">Positive Mentions</th>
+                                        <td>{{insightsSentiments.reddit.positive}}</td>
+                                        <td>{{insightsSentiments.twitter.positive}}</td>
+                                    </tr>
+                                    <tr class="text-center">
+                                        <th class="table-light">Negative Mentions</th>
+                                        <td>{{insightsSentiments.reddit.negative}}</td>
+                                        <td>{{insightsSentiments.twitter.negative}}</td>
+                                    </tr>
+                                  </thead>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-12 col-md-6">
+                            <highcharts-chart *ngIf="displayRecommendation"
+                                [Highcharts]="Highcharts"
+                                [options]="RecommendationOptions"
+                                style="position: relative; display: block;width: auto; overflow: scroll">
+                            </highcharts-chart>
+                        </div>
+                        <div class="col-12 col-md-6 my-2">
+                            
+                            <highcharts-chart *ngIf="displayEPSCharts"
+                                [Highcharts]="Highcharts"
+                                [options]="EPSOptions"
+                                style="position: relative; display: block;width: auto; overflow: scroll">
+                            </highcharts-chart>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+            
+        </mat-tab>
+    </mat-tab-group>
+</div>

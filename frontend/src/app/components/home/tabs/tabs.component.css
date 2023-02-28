@@ -1,0 +1,68 @@
+#News .card {
+    width: 50%;
+}
+
+.card .row{
+    height: 100%;
+}
+
+.card {
+    height: 100%;
+}
+
+img {
+    width: 100px;
+}
+
+@media (max-width: 768px) { 
+    img {
+        width: 200px;
+        height: 150px;
+    }
+    /* .price {
+        width: 100%;
+    } */
+}
+
+.price table{
+    margin: auto;
+}
+
+.price td {
+    float: right;
+}
+
+.h5{
+    text-decoration: underline;
+}
+
+a{
+    text-decoration: none;
+}
+
+
+
+.modalFooter {
+    border: 1px solid gainsboro;
+    border-radius: 5px;
+}
+
+.modal-body h3, .modalFooter h3{
+    text-decoration: none;
+}
+
+.twitter-color {
+    color: #00acee;
+}
+
+.fb-color{
+    color: #4267B2;
+}
+
+.modal-header .btn-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 12px;
+}
+

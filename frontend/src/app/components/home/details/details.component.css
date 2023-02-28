@@ -1,0 +1,66 @@
+
+i{
+    font-size: 75%;
+    position: absolute;
+    left: 0.25em;
+}
+
+.bi-star-fill {
+    color: gold;
+}
+
+span{
+    position: relative;
+}
+
+img{
+    width: 40%;
+}
+
+
+
+@media (max-width: 768px) { 
+    img {
+        width: 100%!important;
+    }
+
+    .name{
+        font-size: 1.2rem;
+    }
+    .col-2{
+        padding: 0 0 0 5px;
+    }
+    .col-5{
+        padding: 0 10px 0 0;
+    }
+    .special{
+        padding: 0 0 0 10px;
+    }
+
+    .com{
+        font-size: 1rem;
+    }
+}
+
+#details {
+    width: 75%;;
+}
+
+.greenText {
+    color: green;
+}
+
+.redText{
+    color: red;
+}
+
+
+
+input{
+    width: 4rem;
+}
+
+.bi-caret-up-fill, .bi-caret-down-fill{
+    position: inherit!important;
+    font-size: 100%!important;
+}

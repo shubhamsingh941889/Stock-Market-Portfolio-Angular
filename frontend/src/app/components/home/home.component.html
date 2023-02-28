@@ -1,0 +1,28 @@
+
+
+
+<app-search></app-search>
+<ng-template [ngIf]="dataLoading">    
+    <div class="d-flex justify-content-center">
+        <mat-spinner  [diameter]="'50'"></mat-spinner>
+    </div>  
+</ng-template>
+<ng-template [ngIf]="displayNotFound">
+    <div class="container mx-auto my-5">
+        <div class="alert text-center"  [ngClass]="apiLImit?'alert-warning':'alert-danger'" role="alert">
+            {{apiLImit?'API limit reached. Please try again later. Remaining Limit: 0':'No data found. Please enter a valid ticker.'}}
+        </div>
+    </div> 
+</ng-template>
+<ng-template [ngIf]="dataFound">
+    <app-details [companyProfile]="companyProfile" [stockPrice]="stockPrice"  ></app-details>
+    <app-tabs 
+    [companyProfile]="companyProfile" [stockPrice]="stockPrice" [companyPeers]="companyPeers" 
+    [companyNews]="companyNews" [insightsEPSChart]="insightsEPSChart" [insightsRecommendationsChart]="insightsRecommendationsChart" 
+    [insightsSentiments]="insightsSentiments" [dailyChartsData]="dailyChartsData" [historicalChartsData]="historicalChartsData">
+</app-tabs>
+</ng-template>
+
+
+
+

@@ -1,0 +1,80 @@
+
+
+
+
+<div class="container mx-auto my-5 w-md-75" >
+    <ngb-alert [type]="'success'" *ngIf="isStarActive && starPressed" (closed)="this.starPressed=false" style="text-align: center;">{{companyProfile['ticker']}} added to watchlist</ngb-alert>
+    <ngb-alert [type]="'danger'" *ngIf="!isStarActive && starPressed" (closed)="this.starPressed=false" style="text-align: center;">{{companyProfile['ticker']}} removed from watchlist</ngb-alert>
+    <ngb-alert *ngIf="isChanged && bought" [type]="'success'" (closed)="isChanged=!isChanged; bought=false" style="text-align: center;">{{companyProfile['ticker']}} bought successfully</ngb-alert>
+    <ngb-alert *ngIf="isChanged && sold" [type]="'danger'" (closed)="isChanged=!isChanged; sold=false" style="text-align: center;">{{companyProfile['ticker']}} sold successfully</ngb-alert>
+    <div class="row">
+        <div class="col-5 col-md-4 special">
+          
+            <p class="h2 mb-0">{{companyProfile['ticker']}}  
+                <ng-template [ngIf]="isStarActive" [ngIfElse]="elseBlock">
+                    <span style="cursor: pointer;" (click)="addToWatchlist()">
+                        <i class="bi bi-star-fill"></i>
+                    </span>
+                </ng-template>
+                <ng-template #elseBlock>
+                    <span style="cursor: pointer;" (click)="addToWatchlist()">
+                        <i class="bi bi-star"></i>
+                    </span>
+                </ng-template>
+            </p>
+            <p class="h3 text-muted mb-0 name">{{companyProfile['name']}}</p>
+            <p class="text-muted com">{{companyProfile['exchange']}}</p>
+            <span> 
+                <button class="btn btn-success me-1" (click)="openModal(content, 0)">Buy</button>
+                <button *ngIf="stockinPortfolio" class="btn btn-danger ms-1" (click)="openModal(content, 1)">Sell</button>
+            </span>
+          
+        </div>
+        <div class="col-2 col-md-4 d-flex flex-column justify-content-between aligns-items-cente">
+            <div class="text-center">
+                <img src="{{companyProfile['logo']}}">
+            </div>
+        </div>
+         
+        <div class="col-5 col-md-4 d-flex justify-content-end">
+            <div class="text-end">
+                <p class="h2 mb-0" [ngClass]="stockPrice['d']>0?'greenText':'redText'">{{stockPrice['c'].toFixed(2)}}</p>
+                <p class="h3" [ngClass]="stockPrice['d']>0?'greenText':'redText'">
+                    <i *ngIf="stockPrice['d']>0" class="bi bi-caret-up-fill text-success"></i>
+                    <i *ngIf="stockPrice['d']<=0" class="bi bi-caret-down-fill text-danger"></i>
+                    {{stockPrice['d'].toFixed(2)}} ({{stockPrice['dp'].toFixed(2)}}%)
+                </p>
+                <p class="text-muted">{{ localCurrentTime | date: "yyyy-MM-dd H:mm:ss" }}</p>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col mt-3 text-center">
+                <p [ngClass]="{'text-success': isMarketOpen, 'text-danger': !isMarketOpen}">{{getMarketStatus()}}</p>
+            </div> 
+        </div>
+
+
+            </div>
+        </div>
+
+
+<ng-template #content let-modal>
+    <div class="modal-header pb-0">
+      <h3 class="modal-title" id="modal-basic-title">{{companyProfile['ticker']}}</h3>
+      <button type="button" class="btn-close text-muted" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body m-3 mb-0 pb-0">
+      <p class="mb-1">Current Price: {{stockPrice['c']}}</p>
+      <p class="mb-1">Money in wallet: ${{balance.toFixed(2)}}</p>
+      <p class="mb-1">Quantity: &nbsp;<input type="number" id="quantity" name="quantity" min="1" (input)="quantityHandler($event)">
+      </p>
+      <p class="mt-3 redText">{{errorText}}</p>
+    </div>
+    <div class="modal-footer justify-content-between">
+        <p>Total: {{(stockPrice['c'] * quantity).toFixed(2)}}</p>
+        <button *ngIf="isSell" [disabled]="isDisabled" class="btn btn-danger me-1" (click)="modal.close(); sellFromDetails()">Sell</button>
+        <button *ngIf="!isSell" [disabled]="isDisabled" class="btn btn-success me-1" (click)="modal.close(); buyFromDetails()">Buy</button>
+    </div>
+</ng-template>

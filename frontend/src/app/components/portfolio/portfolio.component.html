@@ -1,0 +1,73 @@
+
+
+<div class="container-fluid my-5 mx-auto">
+    <div class="container my-5">
+        
+
+        <ngb-alert  *ngIf="isChanged && bought" [type]="'success'" (closed)="isChanged=!isChanged;  bought=!bought" style="text-align: center;">{{ dataItem['ticker'] }} bought successfully</ngb-alert>
+        <ngb-alert  *ngIf="isChanged && sold" [type]="'danger'" (closed)="isChanged=!isChanged; sold=!sold" style="text-align: center;">{{ dataItem['ticker'] }} sold successfully</ngb-alert>
+
+        <div class="d-flex flex-column aligns-items-center justify-content-start">
+            <span class="h2 mb-3">My Portfolio</span>
+            <h3>Money in Wallet: ${{currentLocalBalance.toFixed(2)}}</h3>
+       </div>
+       <ng-template [ngIf]="showError" else elseBlock>
+            <div class="alert alert-warning my-3" role="alert">
+                Currently you don't have any stock.
+            </div>
+        </ng-template>
+    <ng-template #elseBlock ngFor let-item [ngForOf]="dataList">
+        <div class="card my-3" style="cursor: pointer;" >
+            <div class="card-header d-flex" (click)="changeRoute(item['ticker'])">
+                    <h1 class="me-2 mb-0">{{item['ticker']}}</h1> 
+                    <h2 class="text-muted mb-0">{{item['name']}} </h2>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                        <p>Quantity: <span class="spanClass">{{item['quantity']}}</span></p>
+                        <p>Avg. Cost / Share: <span class="spanClass">{{item['averageCost'].toFixed(2)}}</span></p>
+                        <p>Total Cost: <span class="spanClass">{{item['totalCost'].toFixed(2)}}</span></p>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <p>Change: 
+                            <span class="spanClass">
+                                <span *ngIf="item['change']>0"><i class="bi bi-caret-up-fill text-success"></i></span>
+                                <span *ngIf="item['change']<0"><i class="bi bi-caret-down-fill text-danger"></i></span>
+                                <span [ngClass]="item['change']>0?'greenText':item['change']<0?'redText':''">{{item['change'].toFixed(2)}}</span>
+                            </span>
+                        </p>
+                        <p>Current Price: <span class="spanClass" [ngClass]="item['change']>0?'greenText':item['change']<0?'redText':''">{{item['price'].toFixed(2)}}</span></p>
+                        <p>Market Value: <span class="spanClass" [ngClass]="item['change']>0?'greenText':item['change']<0?'redText':''">{{item['marketValue'].toFixed(2)}}</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-end">
+                <span>
+                    <button class="btn btn-primary me-1" (click)="openModal(content, 0, item)">Buy</button>
+                    <button class="btn btn-danger me-1" (click)="openModal(content, 1, item)">Sell</button>
+                </span>
+            </div>
+          </div>
+    </ng-template>
+    </div>
+</div>
+<ng-template #content let-modal>
+    <div class="modal-header pb-0">
+      <h3 class="modal-title" id="modal-basic-title">{{dataItem['ticker']}}</h3>
+
+      <button type="button" class="btn-close text-muted" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body m-3 mb-0 pb-0">
+      <p class="mb-1">Current Price: {{dataItem['price']}}</p>
+      <p class="mb-1">Money in wallet: ${{currentLocalBalance.toFixed(2)}}</p>
+      <p class="mb-1">Quantity: &nbsp;<input type="number" id="quantity" name="quantity" min="1" (input)="quantityHandler($event)">
+      </p>
+      <p class="mt-3 redText">{{errorText}}</p>
+    </div>
+    <div class="modal-footer m-3 p-3 justify-content-between">
+        <p>Total: {{(dataItem['price'] * quantity).toFixed(2)}}</p>
+        <button *ngIf="isSell" [disabled]="isDisabled" class="btn btn-danger me-1" (click)="modal.close(); portfolioSellStock()">Sell</button>
+        <button *ngIf="!isSell" [disabled]="isDisabled" class="btn btn-success me-1" (click)="modal.close(); portfolioBuyStock()">Buy</button>
+    </div>
+</ng-template>

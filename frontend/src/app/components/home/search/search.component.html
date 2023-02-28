@@ -1,0 +1,45 @@
+
+
+
+
+<div class="container-fluid my-5 mx-auto">
+  <div class="container my-5">
+      <div class="d-flex aligns-items-center justify-content-center h1">
+          <p>STOCK SEARCH</p>
+     </div> 
+     <div class="col-sm-4 mx-auto text-center">    
+      <form class="d-flex m-auto" (submit)="handleSubmit($event)" >
+        <div class="input-group rounded-pill">
+        <input autocomplete="false"[value]="userTicker" class="form-control rounded-pill me-2 " type="" placeholder="Enter Stock Ticker Symbol" aria-label="Search" (input)="checkAutoComplete($event)" 
+        [matAutocomplete]="auto" #trigger="matAutocompleteTrigger" (keydown.enter)="trigger.closePanel()">
+        <mat-autocomplete #auto="matAutocomplete" class="mt-n5">
+          <ng-template [ngIf]="showOptions">
+            <mat-option *ngIf="showSpinner">
+          <mat-spinner [diameter]="30"></mat-spinner>
+        </mat-option>
+        <ng-template [ngIf]="!showSpinner">
+          <mat-option *ngFor="let company of filteredCompanies" [value]="company['symbol']"  (click)="findStockData()">
+            {{company['symbol']}} | {{company['description']}}
+          </mat-option>
+        </ng-template>  
+      </ng-template> 
+        </mat-autocomplete>
+        <button class="btn searchb d-flex justify-content-center aligns-items-center input-group-text py-0 px-2" type="" (click)="findStockData()"><i class="bi bi-search"></i></button>
+        <button class="btn closeb d-flex justify-content-center aligns-items-center input-group-text py-0 px-2" type="cancel" (click)="clearData()"><i class="bi bi-x-lg"></i></button>
+      </div>
+      </form>
+    </div>
+  </div>
+  <ng-template [ngIf]="noData">
+    <div class="container mx-auto my-5">
+      <ngb-alert class="text-center mt-4" [type]="'danger'" (closed)="noData=false">Please enter a valid ticker</ngb-alert>
+    </div> 
+  </ng-template>
+</div>  
+
+
+
+
+
+
+

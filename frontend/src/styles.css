@@ -1,0 +1,26 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~bootstrap/dist/css/bootstrap.css";
+@import "~bootstrap-icons/font/bootstrap-icons.css" ;
+html, body { height: 100%; }
+body { 
+    margin: 0; 
+    font-family: Roboto, "Helvetica Neue", sans-serif; 
+    /* position: relative;  */
+    /* display: flex; */
+}
+
+body{
+    
+    /* background-image: url(assets/background-graph.jpg), --webkit-gradient(linear, left top, left bottom, from(#cbe3ba), to(#a6cc8b)); */
+    /* background: linear-gradient(to left top, rgba(255,255,255,0.1), rgba(255,255,255,0.1)), url('assets/background-graph.jpg');  */
+    /* background: url(assets/background-graph.jpg) no-repeat center center fixed;*/
+    background-size: cover;
+    /* position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px; */
+    /* opacity: 0.75;*/
+    background: linear-gradient(to bottom right,rgba(255, 255, 255, 0.9) ,rgba(255, 255, 255, 0.9)), url('assets/background-graph.jpg') no-repeat center center fixed;
+}
+

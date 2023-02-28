@@ -1,0 +1,40 @@
+<div class="container-fluid my-5 mx-auto">
+    <div class="container my-5">
+        <div class="h2 mb-5 d-flex aligns-items-center justify-content-start">
+            My Watchlist
+       </div>
+       <ng-template [ngIf]="showError" else elseBlock>
+        <div class="container mx-auto my-5">
+            <div class="alert alert-warning" role="alert">
+                Currently you don't have any stock in your Watchlist.
+            </div>
+        </div> 
+    </ng-template>
+    <ng-template #elseBlock ngFor let-item [ngForOf]="dataList">
+        <div class="card my-3" style="cursor: pointer;" (click)="navigateRoute(item['ticker'])">
+            <div class="card-body p-3">
+                <div>
+                    <i class="bi bi-x text-muted" (click)="removeItem(item['ticker'])"></i>
+                </div>
+
+                <div class="row">
+                    <div class="col-6">
+                        <p class="h3 mt-2 ">{{item['ticker']}}</p>
+                        <p class="fs-6 mb-0">{{item['name']}}</p>
+                    </div>
+                    <div class="col-6 text-end">
+                        <p class="h3 mt-2 " [ngClass]="item['priceChange']>0?'text-success':'text-danger'">{{item['price'].toFixed(2)}}</p>
+                        <p class="fs-6 mb-0" [ngClass]="item['priceChange']>0?'text-success':'text-danger'">
+                            <i *ngIf="item['priceChange']>0" class="bi bi-caret-up-fill text-success"></i>
+                            <i *ngIf="item['priceChange']<=0" class="bi bi-caret-down-fill text-danger"></i>
+                            {{item['priceChange'].toFixed(2)}} ({{item['percentageChange'].toFixed(2)}}%)
+                            </p>
+                            </div>
+                            </div>
+                            </div>
+                            </div>
+
+                
+    </ng-template>
+    </div>
+</div>
